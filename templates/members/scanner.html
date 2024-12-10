@@ -1,0 +1,37 @@
+<!-- members/templates/members/scanner.html -->
+{% extends 'members/base.html' %} {% block content %}
+<h1>QR Code Scanner</h1>
+<div id="qr-reader" style="width: 600px"></div>
+<p>Scanned Data: <span id="scanned-result"></span></p>
+
+<script src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script>
+<script>
+    function onScanSuccess(decodedText, decodedResult) {
+        console.log(`Code scanned = ${decodedText}`, decodedResult);
+        document.getElementById('scanned-result').innerText = decodedText;
+        // Use fetch to make a request to the backend without reloading the page
+        fetch(decodedText)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message); // Show success message
+                } else {
+                    alert(data.message); // Show error message
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function onScanFailure(error) {
+        console.warn(`QR Code scan failed: ${error}`);
+    }
+
+    var html5QrcodeScanner = new Html5QrcodeScanner(
+        "qr-reader", {
+            fps: 10,
+            qrbox: 250
+        });
+    html5QrcodeScanner.render(onScanSuccess);
+</script>
+
+{% endblock %}

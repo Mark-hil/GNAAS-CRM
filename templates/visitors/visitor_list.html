@@ -1,0 +1,27 @@
+{% extends 'members/base.html' %} {% block content %}
+<h2>Visitor List</h2>
+<table>
+    <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Phone Number</th>
+        <th>Visit Date</th>
+        <th>Follow Up Status</th>
+        <th>Follow Up </th>
+    </tr>
+    {% for visitor in visitors %}
+    <tr>
+        <td>{{ visitor.first_name }}</td>
+        <td>{{ visitor.last_name }}</td>
+        <td>{{ visitor.email }}</td>
+        <td>{{ visitor.phone_number }}</td>
+        <td>{{ visitor.visit_date }}</td>
+        <td>{{ visitor.follow_up_status }}</td>
+        <td>
+            <a href="{% url 'follow_up_visitor' visitor.pk %}">Follow Up</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

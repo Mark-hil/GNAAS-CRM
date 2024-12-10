@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Church CRM{% endblock %}</title>
+
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Include Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Custom styles for the sidebar */
+        
+        .sidebar {
+            transition: width 0.3s ease;
+            height: 100vh;
+            /* Full height of the viewport */
+            overflow: hidden;
+            /* Hide overflow */
+            position: fixed;
+            /* Keep the sidebar fixed */
+        }
+        
+        .sidebar.collapsed {
+            width: 80px;
+            /* Width when collapsed */
+        }
+        
+        .sidebar .nav-link {
+            white-space: nowrap;
+            /* Prevent text from wrapping */
+            display: flex;
+            /* Use flexbox to align items */
+            align-items: center;
+            /* Center icons vertically */
+        }
+        
+        .sidebar.collapsed .nav-link span {
+            display: none;
+            /* Hide text in collapsed state */
+        }
+        
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            /* Space between icon and text */
+        }
+        
+        .toggle-btn {
+            margin: 10px;
+            /* Spacing for the toggle button */
+        }
+        /* Additional styles for main content */
+        
+        .main-content {
+            margin-left: 282px;
+            /* Default margin for the sidebar */
+            transition: margin-left 0.3s ease;
+            /* Smooth transition for margin */
+        }
+        
+        .sidebar.collapsed+.main-content {
+            margin-left: 80px;
+            /* Adjust margin when sidebar is collapsed */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-2 bg-light sidebar" id="sidebar">
+                <div class="sidebar-sticky">
+                    <button class="btn btn-primary toggle-btn" onclick="toggleSidebar()" id="toggleButton">
+                        <i class="fas fa-angle-left" id="toggleIcon"></i> <!-- Icon for toggle button -->
+                    </button>
+                    <h5 class="mt-3">Menu</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'member_list' %}">
+                                <i class="fas fa-users"></i><span>Member List</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'add_member' %}">
+                                <i class="fas fa-user-plus"></i><span>Add Member</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'attendance_report' %}">
+                                <i class="fas fa-clipboard-list"></i><span>Attendance Report</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'track_attendance' %}">
+                                <i class="fas fa-clock"></i><span>Track Attendance</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'set_attendance_type' %}">
+                                <i class="fas fa-cog"></i><span>Set Attendance Type</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'add_visitor' %}">
+                                <i class="fas fa-user-tag"></i><span>Add Visitor</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'visitor_list' %}">
+                                <i class="fas fa-user-friends"></i><span>Visitor List</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content area -->
+            <main class="col-md-10 main-content" id="mainContent">
+                {% block content %}
+                <!-- This is where child templates will insert their content -->
+                {% endblock %}
+            </main>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS and dependencies (jQuery and Popper.js) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const toggleIcon = document.getElementById('toggleIcon');
+            sidebar.classList.toggle('collapsed');
+
+            // Change the icon based on the sidebar state
+            if (sidebar.classList.contains('collapsed')) {
+                toggleIcon.classList.remove('fa-angle-left'); // Remove left arrow icon
+                toggleIcon.classList.add('fa-angle-right'); // Add right arrow icon
+            } else {
+                toggleIcon.classList.remove('fa-angle-right'); // Remove right arrow icon
+                toggleIcon.classList.add('fa-angle-left'); // Add left arrow icon
+            }
+        }
+    </script>
+</body>
+
+</html>

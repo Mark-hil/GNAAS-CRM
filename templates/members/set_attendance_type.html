@@ -1,0 +1,40 @@
+<!-- members/templates/members/set_attendance_session.html -->
+{% extends 'members/base.html' %} {% block content %}
+<h1>Set Attendance Session</h1>
+<form method="POST">
+    {% csrf_token %}
+    <div>
+        <label for="{{ form.attendance_type.id_for_label }}">Attendance Type:</label> {{ form.attendance_type }}
+    </div>
+
+    <div id="event_details" style="display: none;">
+        <label for="{{ form.event_name.id_for_label }}">Event Name:</label> {{ form.event_name }}
+    </div>
+
+    <div id="group_details" style="display: none;">
+        <label for="{{ form.group_name.id_for_label }}">Group Name:</label> {{ form.group_name }}
+    </div>
+
+    <button type="submit">Start Attendance Session</button>
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const attendanceTypeField = document.getElementById('{{ form.attendance_type.id_for_label }}');
+        const eventDetails = document.getElementById('event_details');
+        const groupDetails = document.getElementById('group_details');
+
+        function updateFieldVisibility() {
+            const attendanceType = attendanceTypeField.value;
+            eventDetails.style.display = attendanceType === 'event' ? 'block' : 'none';
+            groupDetails.style.display = attendanceType === 'small_group' ? 'block' : 'none';
+        }
+
+        // Set initial visibility based on the selected attendance type (if any)
+        updateFieldVisibility();
+
+        // Add event listener to handle change in the attendance type selection
+        attendanceTypeField.addEventListener('change', updateFieldVisibility);
+    });
+</script>
+{% endblock %}

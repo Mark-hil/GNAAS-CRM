@@ -1,0 +1,59 @@
+{% extends 'members/base2.html' %} {% block title %}Member List{% endblock %} {% block breadcrumb %}
+<li class="breadcrumb-item active">Member List</li>
+{% endblock %} {% block content %}
+<h1>Church Members</h1>
+
+<!-- Export Button -->
+<div class="mb-3">
+    <a href="{% url 'export_members_csv' %}" class="btn btn-primary">Export to CSV</a>
+    <a href="{% url 'print_badges' %}" class="btn btn-primary">Print Member Badges</a>
+</div>
+
+<!-- Search Form -->
+<div class="mb-3">
+    <input type="text" id="search" class="form-control" placeholder="Search members..." onkeyup="searchMembers()">
+</div>
+
+<!-- Member Table -->
+<table id="member-table" class="table table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>Picture</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Program Of Study</th>
+            <th>Level Of Study</th>
+            <th>Gender</th>
+            <th>Address</th>
+            <th>Date of Birth</th>
+            <th>Status</th>
+            <th>Membership Class</th>
+            <th>Guardian Name</th>
+            <th>Guardian Phone Number</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% include 'members/member_list_rows.html' %}
+    </tbody>
+</table>
+
+<!-- JavaScript for Real-Time Search -->
+<script>
+    function searchMembers() {
+        const query = document.getElementById('search').value;
+        fetch(`?q=${query}`, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.text())
+            .then(html => {
+                document.querySelector('#member-table tbody').innerHTML = html;
+            });
+    }
+</script>
+{% endblock %}
