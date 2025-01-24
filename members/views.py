@@ -19,6 +19,9 @@ import json
 import qrcode
 from io import BytesIO
 from django.core.files.base import ContentFile
+from .models import Member,  Visitor
+from datetime import date
+from django.db.models import Count
 
 # from .models import WorshipServiceAttendance, EventAttendance, SmallGroupAttendance
 # from .forms import AttendanceForm  # Assume you have a form for attendance
@@ -538,3 +541,22 @@ def follow_up_visitor(request, pk):
         form = FollowUpForm(instance=visitor)
     
     return render(request, 'visitors/follow_up_visitor.html', {'form': form})
+
+def dashboard(request):
+    # Get the total members, attendance, and visitors for today
+    total_members = Member.objects.count()
+    # total_attendance = AttendanceSetting.objects.filter(date=date.today()).count()
+    worship_service_count = WorshipServiceAttendance.objects.filter(date=date.today()).count()
+    event_attendance_count = EventAttendance.objects.filter(date=date.today()).count()
+    small_group_attendance_count = SmallGroupAttendance.objects.filter(date=date.today()).count()
+    visitors_today = Visitor.objects.filter(visit_date=date.today()).count()
+
+    context = {
+        'total_members': total_members,
+        'worship_service_count': worship_service_count,
+        'event_attendance_count': event_attendance_count,
+        'small_group_attendance_count': small_group_attendance_count,
+        'visitors_today': visitors_today,
+    }
+
+    return render(request, 'members/dashboard.html', context)

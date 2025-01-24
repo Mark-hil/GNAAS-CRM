@@ -163,8 +163,14 @@ class AttendanceSettingForm(forms.ModelForm):
 class VisitorForm(forms.ModelForm):
     class Meta:
         model = Visitor
-        fields = ['first_name', 'last_name', 'email', 'phone_number']
-
+        fields = ['first_name', 'last_name', 'email', 'phone_number', 'follow_up_status']
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
+            'follow_up_status': forms.TextInput(attrs={'class': 'form-control'}),
+        }
 # Follow-up form for visitor follow-up
 class FollowUpForm(forms.ModelForm):
     class Meta:

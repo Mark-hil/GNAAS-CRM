@@ -23,4 +23,5 @@ urlpatterns = [
     path('add-visitor/', views.add_visitor, name='add_visitor'),
     path('visitors/', views.visitor_list, name='visitor_list'),
     path('follow-up/<int:pk>/', views.follow_up_visitor, name='follow_up_visitor'),
+    path('dashboard/', views.dashboard, name='dashboard'),
 ]

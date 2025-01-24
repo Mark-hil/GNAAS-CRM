@@ -1,0 +1,78 @@
+<!-- members/templates/members/dashboard.html -->
+{% extends 'members/base2.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <!-- Dashboard Header -->
+        <div class="col-12 text-center mb-4">
+            <h1>Welcome to Your Dashboard</h1>
+            <p class="lead">Manage your members, attendance, and more.</p>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Total Members</h5>
+                    <p class="display-4">{{ total_members }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Sabbath Service</h5>
+                    <p class="display-4">{{ worship_service_count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Event</h5>
+                    <p class="display-4">{{ event_attendance_count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Small Group Service</h5>
+                    <p class="display-4">{{ small_group_attendance_count }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Visitors Today</h5>
+                    <p class="display-4">{{ visitors_today }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions Section -->
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Add New Visitor</h5>
+                    <a href="{% url 'add_visitor' %}" class="btn btn-success">Add Visitor</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">View Attendance Report</h5>
+                    <a href="{% url 'attendance_report' %}" class="btn btn-info">View Report</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
