@@ -1,5 +1,5 @@
 <!-- members/templates/members/edit_member.html -->
-{% extends 'members/base.html' %} {% block title %}Edit Member{% endblock %} {% block content %}
+{% extends 'members/base2.html' %} {% block title %}Edit Member{% endblock %} {% block content %}
 <h1>Edit Member: {{ member.first_name }} {{ member.last_name }}</h1>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %} {{ form.as_p }}
