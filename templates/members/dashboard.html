@@ -2,53 +2,56 @@
 {% extends 'members/base2.html' %}
 {% block content %}
 <div class="container mt-5">
+    <!-- Dashboard Header -->
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <h1 class="display-4 font-weight-bold text-primary">Welcome to Your Dashboard</h1>
+            <p class="lead text-muted">Your one-stop platform for managing members, attendance, and trends.</p>
+        </div>
+    </div>
+
+    <!-- Summary Cards -->
     <div class="row">
-        <!-- Dashboard Header -->
-        <div class="col-12 text-center mb-4">
-            <h1>Welcome to Your Dashboard</h1>
-            <p class="lead">Manage your members, attendance, and more.</p>
-        </div>
-
-        <!-- Summary Cards -->
         <div class="col-md-4 mb-4">
-            <div class="card shadow-sm">
+            <div class="card border-primary shadow-lg">
                 <div class="card-body text-center">
-                    <h5 class="card-title">Total Members</h5>
-                    <p class="display-4">{{ total_members }}</p>
+                    <h5 class="card-title text-primary font-weight-bold">Total Members</h5>
+                    <p class="display-4 font-weight-bold text-dark">{{ total_members }}</p>
+                    <p class="text-muted">+{{ member_growth }}% this month</p>
                 </div>
             </div>
         </div>
 
         <div class="col-md-4 mb-4">
-            <div class="card shadow-sm">
+            <div class="card border-success shadow-lg">
                 <div class="card-body text-center">
-                    <h5 class="card-title">Sabbath Service</h5>
-                    <p class="display-4">{{ worship_service_count }}</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card shadow-sm">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Event</h5>
-                    <p class="display-4">{{ event_attendance_count }}</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card shadow-sm">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Small Group Service</h5>
-                    <p class="display-4">{{ small_group_attendance_count }}</p>
+                    <h5 class="card-title text-success font-weight-bold">Sabbath Service</h5>
+                    <p class="display-4 font-weight-bold text-dark">{{ worship_service_count }}</p>
+                    <p class="text-muted">+{{ worship_growth }}% increase</p>
                 </div>
             </div>
         </div>
 
         <div class="col-md-4 mb-4">
-            <div class="card shadow-sm">
+            <div class="card border-info shadow-lg">
                 <div class="card-body text-center">
-                    <h5 class="card-title">Visitors Today</h5>
-                    <p class="display-4">{{ visitors_today }}</p>
+                    <h5 class="card-title text-info font-weight-bold">Event Attendance</h5>
+                    <p class="display-4 font-weight-bold text-dark">{{ event_attendance_count }}</p>
+                    <p class="text-muted">-{{ event_growth }}% decrease</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trends Section -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Attendance Trends</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="attendanceTrendChart" width="400" height="200"></canvas>
                 </div>
             </div>
         </div>
@@ -56,23 +59,73 @@
 
     <!-- Quick Actions Section -->
     <div class="row mt-4">
-        <div class="col-md-4">
-            <div class="card shadow-sm">
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-lg">
                 <div class="card-body text-center">
-                    <h5 class="card-title">Add New Visitor</h5>
-                    <a href="{% url 'add_visitor' %}" class="btn btn-success">Add Visitor</a>
+                    <h5 class="card-title text-success font-weight-bold">Add New Visitor</h5>
+                    <a href="{% url 'add_visitor' %}" class="btn btn-success btn-lg">Add Visitor</a>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="card shadow-sm">
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-lg">
                 <div class="card-body text-center">
-                    <h5 class="card-title">View Attendance Report</h5>
-                    <a href="{% url 'attendance_report' %}" class="btn btn-info">View Report</a>
+                    <h5 class="card-title text-info font-weight-bold">View Attendance Report</h5>
+                    <a href="{% url 'attendance_report' %}" class="btn btn-info btn-lg">View Report</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Include Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Example data for the chart
+    const labels = {{ trend_labels|safe }};
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: 'Attendance Trend',
+            data: {{ trend_data|safe }},
+            fill: false,
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1
+        }]
+    };
+
+    const config = {
+        type: 'line',
+        data: data,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Date'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Attendance Count'
+                    }
+                }
+            }
+        }
+    };
+
+    const myChart = new Chart(
+        document.getElementById('attendanceTrendChart'),
+        config
+    );
+</script>
 {% endblock %}

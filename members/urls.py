@@ -13,7 +13,7 @@ urlpatterns = [
     path('attendance_report/', views.attendance_report, name='attendance_report'),
     path('scanner/', views.scanner, name='scanner'),
     # path('attendance-success/', views.attendance_success, name='attendance_success'),
-    # path('mark-attendance/', views.mark_attendance, name='mark_attendance'),
+    path('mark-attendance/', views.mark_attendance, name='mark_attendance'),
     # path('set-attendance-session/', views.set_attendance_session, name='set_attendance_session'),
     path('set-attendance-type/', views.set_attendance_type, name='set_attendance_type'),
     path('scan-attendance/', views.mark_attendance, name='mark_attendance'),
@@ -25,3 +25,4 @@ urlpatterns = [
     path('follow-up/<int:pk>/', views.follow_up_visitor, name='follow_up_visitor'),
     path('dashboard/', views.dashboard, name='dashboard'),
 ]
+
