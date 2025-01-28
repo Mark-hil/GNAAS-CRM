@@ -1,47 +1,64 @@
 <!-- members/templates/members/dashboard.html -->
 {% extends 'members/base2.html' %}
+
 {% block content %}
 <div class="container mt-5">
     <!-- Dashboard Header -->
     <div class="row mb-4">
         <div class="col-12 text-center">
             <h1 class="display-4 font-weight-bold text-primary">Welcome to Your Dashboard</h1>
-            <p class="lead text-muted">Your one-stop platform for managing members, attendance, and trends.</p>
+            <p class="lead text-muted">Manage members, track attendance, and visualize trends effortlessly.</p>
         </div>
     </div>
 
     <!-- Summary Cards -->
-    <div class="row">
-        <div class="col-md-4 mb-4">
-            <div class="card border-primary shadow-lg">
-                <div class="card-body text-center">
-                    <h5 class="card-title text-primary font-weight-bold">Total Members</h5>
-                    <p class="display-4 font-weight-bold text-dark">{{ total_members }}</p>
-                    <p class="text-muted">+{{ member_growth }}% this month</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4 mb-4">
-            <div class="card border-success shadow-lg">
-                <div class="card-body text-center">
-                    <h5 class="card-title text-success font-weight-bold">Sabbath Service</h5>
-                    <p class="display-4 font-weight-bold text-dark">{{ worship_service_count }}</p>
-                    <p class="text-muted">+{{ worship_growth }}% increase</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4 mb-4">
-            <div class="card border-info shadow-lg">
-                <div class="card-body text-center">
-                    <h5 class="card-title text-info font-weight-bold">Event Attendance</h5>
-                    <p class="display-4 font-weight-bold text-dark">{{ event_attendance_count }}</p>
-                    <p class="text-muted">-{{ event_growth }}% decrease</p>
-                </div>
+    <!-- Summary Cards -->
+<div class="row">
+    <!-- Total Members -->
+    <div class="col-md-3 mb-4">
+        <div class="card border-primary shadow-lg">
+            <div class="card-body text-center">
+                <h5 class="card-title text-primary font-weight-bold">Total Members</h5>
+                <p class="display-4 font-weight-bold text-dark">{{ total_members }}</p>
+                <p class="text-muted">+{{ member_growth }}% this month</p>
             </div>
         </div>
     </div>
+
+    <!-- Sabbath Service Attendance -->
+    <div class="col-md-3 mb-4">
+        <div class="card border-success shadow-lg">
+            <div class="card-body text-center">
+                <h5 class="card-title text-success font-weight-bold">Sabbath Service</h5>
+                <p class="display-4 font-weight-bold text-dark">{{ worship_service_count }}</p>
+                <p class="text-muted">+{{ worship_growth }}% increase</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Small Group Attendance -->
+    <div class="col-md-3 mb-4">
+        <div class="card border-info shadow-lg">
+            <div class="card-body text-center">
+                <h5 class="card-title text-info font-weight-bold">Small Group</h5>
+                <p class="display-4 font-weight-bold text-dark">{{ small_group_attendance_count }}</p>
+                <p class="text-muted">-{{ small_group_growth }}% decrease</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Event Attendance -->
+    <div class="col-md-3 mb-4">
+        <div class="card border-warning shadow-lg">
+            <div class="card-body text-center">
+                <h5 class="card-title text-warning font-weight-bold">Event Attendance</h5>
+                <p class="display-4 font-weight-bold text-dark">{{ event_attendance_count }}</p>
+                <p class="text-muted">-{{ event_growth }}% decrease</p>
+            </div>
+        </div>
+    </div>
+</div>
+
 
     <!-- Trends Section -->
     <div class="row mt-5">
@@ -67,7 +84,6 @@
                 </div>
             </div>
         </div>
-
         <div class="col-md-6 mb-4">
             <div class="card shadow-lg">
                 <div class="card-body text-center">
@@ -82,16 +98,16 @@
 <!-- Include Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // Example data for the chart
+    // Configure Attendance Trend Chart
     const labels = {{ trend_labels|safe }};
     const data = {
         labels: labels,
         datasets: [{
             label: 'Attendance Trend',
             data: {{ trend_data|safe }},
-            fill: false,
             borderColor: 'rgb(75, 192, 192)',
-            tension: 0.1
+            tension: 0.1,
+            fill: false
         }]
     };
 
@@ -123,9 +139,6 @@
         }
     };
 
-    const myChart = new Chart(
-        document.getElementById('attendanceTrendChart'),
-        config
-    );
+    new Chart(document.getElementById('attendanceTrendChart'), config);
 </script>
 {% endblock %}

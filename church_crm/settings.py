@@ -29,7 +29,7 @@ SECRET_KEY = config("SECRET_KEY")
 DEBUG = config("DEBUG", cast=bool)
 
 ALLOWED_HOSTS = config("ALLOWED_HOSTS").split(",")
-
+CORS_ORIGIN_ALLOW_ALL = True 
 
 # Application definition
 
@@ -43,6 +43,8 @@ INSTALLED_APPS = [
 
     'members',
     'widget_tweaks',
+    'corsheaders',
+
 ]
 
 MIDDLEWARE = [
@@ -54,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'church_crm.urls'
