@@ -65,6 +65,7 @@ class Member(models.Model):
     program_of_study = models.CharField(max_length=100)
     level_of_study = models.CharField(max_length=100, choices=LEVEL_CHOICES, default='')
     membership_class = models.CharField(max_length=20,  choices=MEMBERSHIP_CLASS, default='')
+    qr_code = models.BinaryField(null=True, blank=True)
 
 # def generate_qr_code_for_attendance(member):
 #     # Fetch the active attendance setting

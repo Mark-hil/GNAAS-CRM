@@ -53,11 +53,11 @@
     <h1 style="text-align:center;">Member Badges</h1>
     <div class="badge-container">
         {% for member in members %}
-        <div class="badge">
-            <img src="{{ member.qr_code.url }}" alt="QR Code">
-            <div class="badge-name">{{ member.first_name }} {{ member.last_name }}</div>
-        </div>
-        {% endfor %}
+    <div class="badge">
+        <img src="{% url 'view_qr_code' member.id %}" alt="QR Code">  <!-- ✅ Correct way -->
+        <div class="badge-name">{{ member.first_name }} {{ member.last_name }}</div>
+    </div>
+    {% endfor %}
     </div>
 
     <script>

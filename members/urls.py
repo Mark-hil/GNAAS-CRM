@@ -19,6 +19,7 @@ urlpatterns = [
     path('scan-attendance/', views.mark_attendance, name='mark_attendance'),
     path('attendance-report/export/', views.export_attendance_report, name='export_attendance_report'),
     path('print_badges/', views.print_badges, name='print_badges'),
+    path('qr-code/<int:member_id>/', views.view_qr_code, name='view_qr_code'),
     # path('print-badge/<int:member_id>/', views.print_badge, name='print_badge'),
     path('add-visitor/', views.add_visitor, name='add_visitor'),
     path('visitors/', views.visitor_list, name='visitor_list'),

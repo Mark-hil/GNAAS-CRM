@@ -83,7 +83,7 @@ def add_member(request):
         if form.is_valid():
             member = form.save()
 
-            # Generate the static QR code based on the member's unique ID
+            # Generate QR code based on member's unique ID
             qr_data = f"http://127.0.0.1:8000/scan-attendance/?member_id={member.id}"
             qr = qrcode.QRCode(
                 version=1,
@@ -94,18 +94,17 @@ def add_member(request):
             qr.add_data(qr_data)
             qr.make(fit=True)
 
+            # Save QR Code as binary data
             img = qr.make_image(fill='black', back_color='white')
             buffer = BytesIO()
             img.save(buffer, format='PNG')
-            qr_code_file = ContentFile(buffer.getvalue(), 'member_qrcode.png')
-            member.qr_code.save('member_qrcode.png', qr_code_file)
+            member.qr_code = buffer.getvalue()  # Store binary data in PostgreSQL
             member.save()
 
             return redirect('member_list')
     else:
         form = MemberForm()
     return render(request, 'members/add_member.html', {'form': form})
-
 # def add_member(request):
 #     if request.method == 'POST':
 #         form = MemberForm(request.POST, request.FILES)
@@ -484,6 +483,21 @@ def set_attendance_type(request):
 def print_badges(request):
     members = Member.objects.all()
     return render(request, 'members/print_badges.html', {'members': members})
+
+from PIL import Image
+import io
+
+def view_qr_code(request, member_id):
+    """Retrieve and serve the QR code from PostgreSQL as an image."""
+    member = get_object_or_404(Member, id=member_id)
+
+    if member.qr_code:
+        image = Image.open(io.BytesIO(member.qr_code))  # Convert binary data to image
+        response = HttpResponse(content_type="image/png")
+        image.save(response, "PNG")
+        return response
+    else:
+        return HttpResponse("No QR code available", status=404)
 # import pdfkit
 # def print_badge(request, member_id):
 #     member = get_object_or_404(Member, id=member_id)
